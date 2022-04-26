@@ -3,6 +3,7 @@ import {
     IsNotEmpty,
     MaxLength,
     MinLength,
+    Matches,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -20,7 +21,7 @@ export class CreateUserDto {
     })
     email: string;
 
-
+    
     @IsNotEmpty({
         message: 'Informe o nome do usuário',
     })
@@ -36,6 +37,10 @@ export class CreateUserDto {
     @MinLength(6, {
         message: 'A senha deve ter no mínimo 6 caracteres',
     })
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+        message:
+            'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
+    })
     password: string;
 
 
@@ -44,6 +49,10 @@ export class CreateUserDto {
     })
     @MinLength(6, {
         message: 'A confirmação de senha deve ter no mínimo 6 caracteres',
+    })
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+        message:
+            'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
     })
     passwordConfirmation: string;
 }
