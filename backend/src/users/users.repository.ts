@@ -1,5 +1,5 @@
 
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRole } from './user-roles.enum';
@@ -10,11 +10,12 @@ import {
 } from '@nestjs/common';
 import { CredentialsDto } from '../auth/dto/credentials.dto';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
+import { CustomRepository } from 'src/database/typeorm-ex.decorator';
 
-@EntityRepository(User)
+@CustomRepository(User)
 export class UserRepository extends Repository<User> {
 
-    async findUsers(
+    public async findUsers(
         queryDto: FindUsersQueryDto,
     ): Promise<{ users: User[]; total: number }> {
         queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
@@ -34,8 +35,8 @@ export class UserRepository extends Repository<User> {
         if (role) {
             query.andWhere('user.role = :role', { role });
         }
-        query.skip((queryDto.page - 1) * queryDto.limit);
-        query.take(+queryDto.limit);
+        // query.skip((queryDto.page - 1) * queryDto.limit);
+        // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
         query.select(['user.name', 'user.email', 'user.role']);
 
@@ -44,7 +45,7 @@ export class UserRepository extends Repository<User> {
         return { users, total };
     }
 
-    async createUser(
+    public async createUser(
         createUserDto: CreateUserDto,
         role: UserRole,
     ): Promise<User> {
@@ -71,7 +72,7 @@ export class UserRepository extends Repository<User> {
         }
     }
 
-    async checkCredentials(credentialsDto: CredentialsDto): Promise<User> {
+    public async checkCredentials(credentialsDto: CredentialsDto): Promise<User> {
         const { email, password } = credentialsDto;
         const user = await this.findOne({ where: { email: email } });
 
