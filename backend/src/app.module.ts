@@ -7,6 +7,7 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './configs/winston.config';
+import { MusicsModule } from './musics/musics.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { winstonConfig } from './configs/winston.config';
         WinstonModule.forRoot(winstonConfig),
         UsersModule,
         AuthModule,
+        MusicsModule,
     ],
     controllers: [],
     providers: [

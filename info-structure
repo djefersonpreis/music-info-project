@@ -1,0 +1,39 @@
+Music:[
+    id,
+    name,
+    image_url,
+    release_date
+]
+
+band:[
+    id,
+    name,
+    image_url,
+    creation_date
+]
+
+Singer:[
+    id,
+    name,
+    image_url,
+    birth_date
+]
+
+Album:[
+    id,
+    name,
+    image_url,
+    release_date
+    Singer_id,
+    Album_id
+]
+
+MusicSinger:[
+    Music_id,
+    Singer_id,
+]
+
+AlbumMusic:[
+    Album_id,
+    Music_id,
+]
