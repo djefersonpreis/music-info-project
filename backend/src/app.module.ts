@@ -8,6 +8,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './configs/winston.config';
 import { MusicsModule } from './musics/musics.module';
+import { SingersModule } from './singers/singers.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { MusicsModule } from './musics/musics.module';
         UsersModule,
         AuthModule,
         MusicsModule,
+        SingersModule,
     ],
     controllers: [],
     providers: [
