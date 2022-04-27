@@ -8,6 +8,9 @@ export class UpdateMusicDto {
     name: string;
 
     @IsOptional()
+    @IsString({
+        message: 'Informe uma URL para a Música',
+    })
     image_url: string;
 
     @IsOptional()

@@ -1,6 +1,5 @@
 import {
     Injectable,
-    UnprocessableEntityException,
     NotFoundException,
     InternalServerErrorException
 } from '@nestjs/common';
@@ -18,11 +17,11 @@ export class MusicsService {
         private musicRepository: MusicRepository,
     ) { }
 
-    async createMusic(createMusicDto: CreateMusicDto): Promise<Music> {
+    async create(createMusicDto: CreateMusicDto): Promise<Music> {
         return this.musicRepository.createMusic(createMusicDto);
     }
 
-    async findMusicById(musicId: string): Promise<Music> {
+    async findById(musicId: string): Promise<Music> {
         const music = await this.musicRepository.findOne({
             select: ['name', 'image_url', 'release_date', 'id'], where: { id: musicId }
         });
@@ -32,8 +31,8 @@ export class MusicsService {
         return music;
     }
 
-    async updateMusic(updateMusicDto: UpdateMusicDto, id: string): Promise<Music> {
-        const music = await this.findMusicById(id);
+    async update(updateMusicDto: UpdateMusicDto, id: string): Promise<Music> {
+        const music = await this.findById(id);
         const { name, image_url, release_date } = updateMusicDto;
         music.name = name ? name : music.name;
         music.image_url = image_url ? image_url : music.image_url;
@@ -48,7 +47,7 @@ export class MusicsService {
         }
     }
 
-    async deleteMusic(musicId: string) {
+    async delete(musicId: string) {
         const result = await this.musicRepository.delete({ id: musicId });
         if (result.affected === 0) {
             throw new NotFoundException(
@@ -57,7 +56,7 @@ export class MusicsService {
         }
     }
 
-    async findMusics(
+    async find(
         queryDto: FindMusicQueryDto,
     ): Promise<{ musics: Music[]; total: number }> {
         const musics = await this.musicRepository.findMusics(queryDto);

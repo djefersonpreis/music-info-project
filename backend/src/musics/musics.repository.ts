@@ -1,12 +1,7 @@
 
 import { Repository } from 'typeorm';
 import { Music } from './entities/music.entity';
-import * as bcrypt from 'bcrypt';
-import {
-    ConflictException,
-    InternalServerErrorException,
-} from '@nestjs/common';
-import { CredentialsDto } from '../auth/dto/credentials.dto';
+import { InternalServerErrorException } from '@nestjs/common';
 import { FindMusicQueryDto } from './dto/find-music-query.dto';
 import { CustomRepository } from 'src/database/typeorm-ex.decorator';
 import { CreateMusicDto } from './dto/create-music.dto';

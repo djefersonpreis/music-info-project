@@ -1,34 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MusicsService } from './musics.service';
-import { CreateMusicDto } from './dto/create-music.dto';
-import { UpdateMusicDto } from './dto/update-music.dto';
+import {
+    Controller,
+    Post,
+    Body,
+    ValidationPipe,
+    UseGuards,
+    Get,
+    Param,
+    Patch,
+    ForbiddenException,
+    Delete,
+    Query,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('musics')
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../auth/role.decorator';
+import { GetUser } from '../auth/get-user.decorator';
+
+import { MusicsService } from './musics.service';
+import { Music } from './entities/music.entity';
+
+import { CreateMusicDto } from './dto/create-music.dto';
+import { ReturnMusicDto } from './dto/return-music.dto';
+import { UpdateMusicDto } from './dto/update-music.dto';
+import { FindMusicQueryDto } from './dto/find-music-query.dto';
+
+@Controller('music')
 export class MusicsController {
-    constructor(private readonly musicsService: MusicsService) { }
+    constructor(private musicsService: MusicsService) { }
 
     @Post()
-    create(@Body() createMusicDto: CreateMusicDto) {
-        return this.musicsService.create(createMusicDto);
-    }
-
-    @Get()
-    findAll() {
-        return this.musicsService.findAll();
+    async create(
+        @Body() createMusicDto: CreateMusicDto,
+    ): Promise<ReturnMusicDto> {
+        const music = await this.musicsService.create(createMusicDto);
+        return {
+            music,
+            message: 'Música cadastrada com sucesso',
+        };
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.musicsService.findOne(+id);
+    async findById(@Param('id') id): Promise<ReturnMusicDto> {
+        const music = await this.musicsService.findById(id);
+        return {
+            music,
+            message: 'Música encontrada',
+        };
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateMusicDto: UpdateMusicDto) {
-        return this.musicsService.update(+id, updateMusicDto);
+    async update(
+        @Body(ValidationPipe) updateMusicDto: UpdateMusicDto,
+        @Param('id') id: string,
+    ) {
+        return this.musicsService.update(updateMusicDto, id);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.musicsService.remove(+id);
+    async delete(@Param('id') id: string) {
+        await this.musicsService.delete(id);
+        return {
+            message: 'Música removida com sucesso',
+        };
+    }
+
+    @Get()
+    async find(@Query() query: FindMusicQueryDto) {
+        const found = await this.musicsService.find(query);
+        return {
+            found,
+            message: 'Musicas encontrados',
+        };
     }
 }
