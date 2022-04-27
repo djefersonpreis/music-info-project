@@ -9,6 +9,7 @@ import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './configs/winston.config';
 import { MusicsModule } from './musics/musics.module';
 import { SingersModule } from './singers/singers.module';
+import { BandsModule } from './bands/bands.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { SingersModule } from './singers/singers.module';
         AuthModule,
         MusicsModule,
         SingersModule,
+        BandsModule,
     ],
     controllers: [],
     providers: [
