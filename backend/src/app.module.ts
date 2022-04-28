@@ -10,6 +10,7 @@ import { winstonConfig } from './configs/winston.config';
 import { MusicsModule } from './musics/musics.module';
 import { SingersModule } from './singers/singers.module';
 import { BandsModule } from './bands/bands.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { BandsModule } from './bands/bands.module';
         MusicsModule,
         SingersModule,
         BandsModule,
+        AlbumsModule,
     ],
     controllers: [],
     providers: [

@@ -16,7 +16,7 @@ export class MusicRepository extends Repository<Music> {
         queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
 
         const { name, release_date } = queryDto;
-        const query = this.createQueryBuilder('user');
+        const query = this.createQueryBuilder('music');
 
         if (release_date) {
             query.andWhere('music.release_date ILIKE :release_date', { release_date: `%${release_date}%` });

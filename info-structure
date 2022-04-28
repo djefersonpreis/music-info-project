@@ -25,7 +25,7 @@ Album:[
     image_url,
     release_date
     Singer_id,
-    Album_id
+    band_id
 ]
 
 MusicSinger:[

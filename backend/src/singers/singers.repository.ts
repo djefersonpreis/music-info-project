@@ -16,7 +16,7 @@ export class SingerRepository extends Repository<Singer> {
         queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
 
         const { name, birth_date } = queryDto;
-        const query = this.createQueryBuilder('user');
+        const query = this.createQueryBuilder('singer');
 
         if (birth_date) {
             query.andWhere('singer.birth_date ILIKE :birth_date', { birth_date: `%${birth_date}%` });

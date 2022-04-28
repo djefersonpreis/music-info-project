@@ -16,7 +16,7 @@ export class BandRepository extends Repository<Band> {
         queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
 
         const { name, creation_date } = queryDto;
-        const query = this.createQueryBuilder('user');
+        const query = this.createQueryBuilder('band');
 
         if (creation_date) {
             query.andWhere('band.creation_date ILIKE :creation_date', { creation_date: `%${creation_date}%` });
