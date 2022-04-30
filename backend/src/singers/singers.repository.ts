@@ -29,7 +29,7 @@ export class SingerRepository extends Repository<Singer> {
         // query.skip((queryDto.page - 1) * queryDto.limit);
         // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-        query.select(['singer.name', 'singer.birth_date']);
+        query.select(['singer.id', 'singer.name', 'singer.birth_date', 'singer.image_url']);
 
         const [singers, total] = await query.getManyAndCount();
 

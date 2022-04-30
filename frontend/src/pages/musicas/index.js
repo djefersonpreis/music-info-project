@@ -1,13 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Card, Grid, Button } from '@material-ui/core';
-import { Alerta } from '../../components/Alerta';
+import { Card, Grid, Button, Container } from '@material-ui/core';
+import { Alerta } from '../../components';
 
 import api from "../../services/api";
 
 import Listagem from './listagem';
 import Cadastro from './cadastro.js';
 
-function Music() {
+
+function Musica() {
 
 
     /**
@@ -31,7 +32,7 @@ function Music() {
         api.get("music", '', headers)
             .then(response => {
                 var content = []
-                response.data.forEach(row => {
+                response.data.found.musics.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
@@ -56,8 +57,16 @@ function Music() {
 
         api.get(`music/${id}`, '', headers)
             .then(response => {
-                setMusic(response.data);
-                setPageTipe(1);
+                let dataResponse = response.data.music;
+                let music = {
+                    id: dataResponse.id,
+                    name: dataResponse.name,
+                    imageUrl: dataResponse.image_url,
+                    releaseDate: dataResponse.release_date
+                }
+
+                setMusic(music);
+                setPageTipe(2);
             })
             .catch((err) => {
                 setAlertType("error");
@@ -115,45 +124,46 @@ function Music() {
 
     return (
         <Fragment>
-            <h1>Gestão de Músicas</h1>
+            <Container>
+                <h1>Gestão de Músicas</h1>
 
-            {
-                alertType !== "" && <Alerta type={alertType} title={alertType === "success" ? 'Sucesso!' : 'Falha!'} message={alert} />
-            }
-
-            <Grid container direction="row" spacing={2}>
-                <Grid item xs={12}>
-                    <Card>
-                        <Grid container item xs={12} justify="space-between" alignItems="center">
-                            <Grid item></Grid>
-                            <Grid item className="m-3">
-                                {pageTipe === 0
-                                    ? (<h3>Listagem de Músicas</h3>)
-                                    : (<h3>Cadastro de Música</h3>)
-                                }
-                            </Grid>
-                            <Grid item className="m-2">
-                                {pageTipe === 0
-                                    ? (<Button className="p-3" variant="contained" color="primary" onClick={() => { setMusic(""); setAlertType(""); setPageTipe(1) }}>Cadastrar Nova Música</Button>)
-                                    : (<Button className="p-3" variant="contained" color="primary" onClick={() => { setMusic(""); setAlertType(""); setPageTipe(0) }}>Voltar</Button>)
-                                }
-                            </Grid>
-                        </Grid>
-                    </Card>
-                </Grid>
-                {pageTipe === 0
-                    ? (<Listagem
-                        dataContent={content}
-                        editar={editar}
-                        remover={remover} />)
-                    : (<Cadastro
-                        cadastroSucesso={cadastroSucesso}
-                        cadastroFalha={cadastroFalha}
-                        music={music} />)
+                {
+                    alertType !== "" && <Alerta type={alertType} title={alertType === "success" ? 'Sucesso!' : 'Falha!'} message={alert} />
                 }
-            </Grid>
+
+                <Grid container direction="row" spacing={2}>
+                    <Grid item xs={12}>
+                        <Card>
+                            <Grid container item xs={12} justify="space-between" alignItems="center">
+                                <Grid item></Grid>
+                                <Grid item className="m-3">
+                                    {pageTipe === 0 && (<h3>Listagem de Músicas</h3>)}
+                                    {pageTipe === 1 && (<h3>Cadastro de Música</h3>)}
+                                    {pageTipe === 2 && (<h3>Edição de Música</h3>)}
+                                </Grid>
+                                <Grid item className="m-2">
+                                    {pageTipe === 0
+                                        ? (<Button className="p-3" variant="contained" color="primary" onClick={() => { setMusic(""); setAlertType(""); setPageTipe(1) }}>Cadastrar Nova Música</Button>)
+                                        : (<Button className="p-3" variant="contained" color="primary" onClick={() => { setMusic(""); setAlertType(""); setPageTipe(0) }}>Voltar</Button>)
+                                    }
+                                </Grid>
+                            </Grid>
+                        </Card>
+                    </Grid>
+                    {pageTipe === 0
+                        ? (<Listagem
+                            dataContent={content}
+                            editar={editar}
+                            remover={remover} />)
+                        : (<Cadastro
+                            cadastroSucesso={cadastroSucesso}
+                            cadastroFalha={cadastroFalha}
+                            music={music} />)
+                    }
+                </Grid>
+            </Container>
         </Fragment>
     );
 }
 
-export default Music;
+export default Musica;

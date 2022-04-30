@@ -29,7 +29,7 @@ export class AlbumRepository extends Repository<Album> {
         // query.skip((queryDto.page - 1) * queryDto.limit);
         // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-        query.select(['album.name', 'album.release_date']);
+        query.select(['album.id', 'album.name', 'album.release_date', 'album.image_url']);
 
         const [albums, total] = await query.getManyAndCount();
 

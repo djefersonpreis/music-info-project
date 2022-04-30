@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BootstrapTable } from 'react-bootstrap-table';
+import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 class SearchButton extends Component {
     // It's necessary to implement getValue

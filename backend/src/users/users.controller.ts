@@ -25,12 +25,12 @@ import { UpdateUserDto } from './dto/update-users.dto';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
 
 @Controller('users')
-@UseGuards(AuthGuard(), RolesGuard)
+//@UseGuards(AuthGuard(), RolesGuard)
 export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Post()
-    @Role(UserRole.ADMIN)
+    //@Role(UserRole.ADMIN)
     async createAdminUser(
         @Body() createUserDto: CreateUserDto,
     ): Promise<ReturnUserDto> {
@@ -42,7 +42,7 @@ export class UsersController {
     }
 
     @Get(':id')
-    @Role(UserRole.ADMIN)
+    //@Role(UserRole.ADMIN)
     async findUserById(@Param('id') id): Promise<ReturnUserDto> {
         const user = await this.usersService.findUserById(id);
         return {
@@ -67,7 +67,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    @Role(UserRole.ADMIN)
+    //@Role(UserRole.ADMIN)
     async deleteUser(@Param('id') id: string) {
         await this.usersService.deleteUser(id);
         return {
@@ -76,7 +76,7 @@ export class UsersController {
     }
 
     @Get()
-    @Role(UserRole.ADMIN)
+    //@Role(UserRole.ADMIN)
     async findUsers(@Query() query: FindUsersQueryDto) {
         const found = await this.usersService.findUsers(query);
         return {

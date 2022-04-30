@@ -29,7 +29,7 @@ export class MusicRepository extends Repository<Music> {
         // query.skip((queryDto.page - 1) * queryDto.limit);
         // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-        query.select(['music.name', 'music.release_date']);
+        query.select(['music.name', 'music.release_date', 'music.image_url', 'music.id']);
 
         const [musics, total] = await query.getManyAndCount();
 

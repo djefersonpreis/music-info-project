@@ -29,7 +29,7 @@ export class BandRepository extends Repository<Band> {
         // query.skip((queryDto.page - 1) * queryDto.limit);
         // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-        query.select(['band.name', 'band.creation_date']);
+        query.select(['band.id', 'band.name', 'band.creation_date', 'band.image_url']);
 
         const [bands, total] = await query.getManyAndCount();
 
