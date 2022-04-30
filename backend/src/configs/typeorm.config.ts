@@ -6,7 +6,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     port: 5432,
     username: 'pguser',
     password: 'pgpassword',
-    database: 'music_info',
+    database: 'music_info3',
     entities: [__dirname + '/../**/*.entity.{js,ts}'],
     synchronize: true,
 };

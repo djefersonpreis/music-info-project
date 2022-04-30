@@ -6,10 +6,13 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToOne,
-    JoinColumn
+    JoinColumn,
+    ManyToMany,
+    JoinTable
 } from 'typeorm';
 import { Singer } from '../../singers/entities/singer.entity';
 import { Band } from '../../bands/entities/band.entity';
+import { Music } from 'src/musics/entities/music.entity';
 
 @Entity()
 export class Album extends BaseEntity {
@@ -32,6 +35,10 @@ export class Album extends BaseEntity {
     @OneToOne(() => Band)
     @JoinColumn()
     public band: Band;
+
+    @ManyToMany(() => Music)
+    @JoinTable()
+    Music: Music[];
 
     @CreateDateColumn()
     createdAt: Date;
