@@ -10,47 +10,57 @@ function Cadastro(props) {
     const [name, setName] = useState();
     const [nameError, setnameError] = useState("");
 
-    const [creationDate, setCreationDate] = useState();
-    const [creationDateError, setCreationDateError] = useState("");
+    const [releaseDate, setReleaseDate] = useState();
+    const [releaseDateError, setReleaseDateError] = useState("");
 
     const [imageUrl, setImageUrl] = useState();
     const [imageUrlError, setImageUrlError] = useState("");
 
+    const [singerId, setSingerId] = useState();
+    const [singerIdError, setSingerIdError] = useState("");
+
+    const [bandId, setBandId] = useState();
+    const [bandIdError, setBandIdError] = useState("");
+
     useEffect(() => {
-        if (props.band !== "") {
-            defineAlteracao(props.band);
+        if (props.album !== "") {
+            defineAlteracao(props.album);
         }
     }, []);
 
-    function defineAlteracao(band) {
-        setId(band.id);
-        setName(band.name);
-        setCreationDate(band.creationDate);
-        setImageUrl(band.imageUrl);
+    function defineAlteracao(album) {
+        setId(album.id);
+        setName(album.name);
+        setReleaseDate(album.releaseDate);
+        setImageUrl(album.imageUrl);
+        setSingerId(album.singerId);
+        setBandId(album.bandId);
     }
 
     function efetuaCadastro() {
         var validaOperacao = true;
 
         setnameError("");
-        setCreationDateError("");
+        setReleaseDateError("");
         setImageUrlError("");
+        setSingerIdError("");
+        setBandIdError("");
 
         if (name === "" || name == null) {
             validaOperacao = false;
-            setnameError("Necessário informar o Nome da banda.");
+            setnameError("Necessário informar o Nome do album.");
         }
 
 
-        if (creationDate === "" || creationDate == null) {
+        if (releaseDate === "" || releaseDate == null) {
             validaOperacao = false;
-            setCreationDateError("Necessário informar a Data de Criação da banda.");
+            setReleaseDateError("Necessário informar a Data de Lançamento do Album.");
         }
 
 
         if (imageUrl === "" || imageUrl == null) {
             validaOperacao = false;
-            setImageUrlError("Necessário informar uma URL de Imagem da banda.");
+            setImageUrlError("Necessário informar uma URL de Imagem do cantor.");
         }
 
 
@@ -64,12 +74,14 @@ function Cadastro(props) {
 
             var data = {
                 name: name,
-                creation_date: creationDate,
-                image_url: imageUrl
+                release_date: releaseDate,
+                image_url: imageUrl,
+                singerId: singerId,
+                bandId: bandId,
             };
 
             if (id !== 0) {
-                api.patch(`band/${id}`, data, headers)
+                api.patch(`album/${id}`, data, headers)
                     .then(response => {
                         if (response.status === 200) {
                             props.cadastroSucesso()
@@ -78,12 +90,12 @@ function Cadastro(props) {
                         }
                     })
                     .catch((err) => {
-                        props.cadastroFalha("Falha ao Alterar registro da Banda. Por favor tente novamente mais tarde ou, se o problema persistir, contate nosso Suporte.");
+                        props.cadastroFalha("Falha ao Alterar registro do album. Por favor tente novamente mais tarde ou, se o problema persistir, contate nosso Suporte.");
                         console.log(err.stack);
                     });
             } else {
                 console.log(data);
-                api.post("band", data, headers)
+                api.post("album", data, headers)
                     .then(response => {
                         if (response.status === 201) {
                             props.cadastroSucesso();
@@ -92,7 +104,7 @@ function Cadastro(props) {
                         }
                     })
                     .catch((err) => {
-                        props.cadastroFalha("Falha ao Cadastrar Banda. Por favor tente novamente mais tarde ou, se o problema persistir, contate nosso Suporte.");
+                        props.cadastroFalha("Falha ao Cadastrar Album. Por favor tente novamente mais tarde ou, se o problema persistir, contate nosso Suporte.");
                         console.log(err.stack);
                     });
             }
@@ -107,7 +119,7 @@ function Cadastro(props) {
                         fullWidth
                         className="m-3"
                         id="name"
-                        label="Nome da Banda"
+                        label="Nome do Album"
                         variant="outlined"
                         type="text"
                         value={name}
@@ -120,14 +132,14 @@ function Cadastro(props) {
                     <TextField
                         fullWidth
                         className="m-3"
-                        id="creationDate"
-                        label="Data de criação da Banda (Ano)"
+                        id="releaseDate"
+                        label="Data de Lançamento do Album (Ano)"
                         variant="outlined"
                         type="text"
-                        value={creationDate}
-                        onChange={e => setCreationDate(e.target.value)}
-                        helperText={creationDateError}
-                        error={(creationDateError !== "")}
+                        value={releaseDate}
+                        onChange={e => setReleaseDate(e.target.value)}
+                        helperText={releaseDateError}
+                        error={(releaseDateError !== "")}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -135,7 +147,7 @@ function Cadastro(props) {
                         fullWidth
                         className="m-3"
                         id="imageUrl"
-                        label="URL de Imagem da Banda"
+                        label="URL de Imagem do Album"
                         variant="outlined"
                         type="text"
                         value={imageUrl}
@@ -144,7 +156,36 @@ function Cadastro(props) {
                         error={(imageUrlError !== "")}
                     />
                 </Grid>
-
+                {/*  
+                <Grid item xs={12} sm={4}>
+                    <TextField
+                        fullWidth
+                        className="m-3"
+                        id="singerId"
+                        label="Cantor do Album"
+                        variant="outlined"
+                        type="number"
+                        value={singerId}
+                        onChange={e => setSingerId(e.target.value)}
+                        helperText={singerIdError}
+                        error={(singerIdError !== "")}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <TextField
+                        fullWidth
+                        className="m-3"
+                        id="bandId"
+                        label="Banda do Album"
+                        variant="outlined"
+                        type="number"
+                        value={bandId}
+                        onChange={e => setBandId(e.target.value)}
+                        helperText={bandIdError}
+                        error={(bandIdError !== "")}
+                    />
+                </Grid>
+                */}
 
                 <Grid item xs={6} sm={4} md={3} lg={2} xl={1} className="mr-3 mb-3">
                     <Button
