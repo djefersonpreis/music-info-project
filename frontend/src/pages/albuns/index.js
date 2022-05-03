@@ -32,14 +32,14 @@ function Album() {
         api.get("album", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.albuns.forEach(row => {
+                response.data.found.albums.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
                         imageUrl: row.image_url,
                         releaseDate: row.release_date,
-                        // singerId: row.singer_id,
-                        // bandId: row.band_id
+                        singerId: row.singer_id,
+                        bandId: row.band_id
                     })
                 });
                 setContent(content);

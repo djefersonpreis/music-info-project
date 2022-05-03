@@ -50,7 +50,6 @@ class Listagem extends React.Component {
                                 dataFormat={(cell, row) => { return (<img width="100px" height="100px" src={cell} />) }}>
                                 Imagem
                             </TableColumn>
-                            {/* 
                             <TableColumn
                                 dataField='singerId'
                                 searchable
@@ -63,7 +62,6 @@ class Listagem extends React.Component {
                                 dataSort>
                                 Banda do Album
                             </TableColumn>
-                             */}
                             <TableColumn
                                 dataFormat={createCrudButtons}
                                 searchable={false}

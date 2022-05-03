@@ -156,7 +156,6 @@ function Cadastro(props) {
                         error={(imageUrlError !== "")}
                     />
                 </Grid>
-                {/*  
                 <Grid item xs={12} sm={4}>
                     <TextField
                         fullWidth
@@ -185,7 +184,6 @@ function Cadastro(props) {
                         error={(bandIdError !== "")}
                     />
                 </Grid>
-                */}
 
                 <Grid item xs={6} sm={4} md={3} lg={2} xl={1} className="mr-3 mb-3">
                     <Button

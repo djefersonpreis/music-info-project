@@ -15,6 +15,8 @@ export default function Header() {
                             <li><Link className="nav-link px-2 text-white" to={'/usuarios'}>Usuários</Link></li>
                             <li><Link className="nav-link px-2 text-white" to={'/musicas'}>Musicas</Link></li>
                             <li><Link className="nav-link px-2 text-white" to={'/albuns'}>Albuns</Link></li>
+                            <li><Link className="nav-link px-2 text-white" to={'/bandas'}>Bandas</Link></li>
+                            <li><Link className="nav-link px-2 text-white" to={'/cantores'}>Cantores</Link></li>
                         </ul>
 
                         <div className="text-end">

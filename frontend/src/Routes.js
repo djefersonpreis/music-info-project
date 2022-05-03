@@ -5,6 +5,9 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Musica from './pages/musicas';
 import Usuario from './pages/usuarios';
+import Album from './pages/albuns';
+import Banda from './pages/bandas';
+import Cantor from './pages/cantores';
 
 const Routes = () => {
     const location = useLocation();
@@ -17,6 +20,9 @@ const Routes = () => {
                     <Route path="/login" component={Login} />
                     <Route path="/musicas" component={Musica} />
                     <Route path="/usuarios" component={Usuario} />
+                    <Route path="/albuns" component={Album} />
+                    <Route path="/bandas" component={Banda} />
+                    <Route path="/cantores" component={Cantor} />
                 </Switch>
             </Switch>
     );
