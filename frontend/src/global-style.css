@@ -17,5 +17,11 @@ body {
 }
 
 .container-geral{
-    background-color: rgba(125, 125, 125, 0.5);
+    /*background-color: rgba(125, 125, 125, 0.5);*/
+    background-color: #FFF;
+}
+
+.card{
+    width: 200px;
+    height: 250px;
 }
