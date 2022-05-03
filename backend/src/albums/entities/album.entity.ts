@@ -30,11 +30,11 @@ export class Album extends BaseEntity {
 
     @ManyToOne(() => Singer)
     @JoinColumn()
-    public singer: Singer;
+    singer: Singer;
 
     @ManyToOne(() => Band)
     @JoinColumn()
-    public band: Band;
+    band: Band;
 
     @ManyToMany(() => Music)
     @JoinTable()

@@ -5,6 +5,8 @@ import { InternalServerErrorException } from '@nestjs/common';
 import { FindAlbumQueryDto } from './dto/find-album-query.dto';
 import { CustomRepository } from 'src/database/typeorm-ex.decorator';
 import { CreateAlbumDto } from './dto/create-album.dto';
+import { Singer } from 'src/singers/entities/singer.entity';
+import { Band } from 'src/bands/entities/band.entity';
 
 @CustomRepository(Album)
 export class AlbumRepository extends Repository<Album> {
@@ -17,6 +19,7 @@ export class AlbumRepository extends Repository<Album> {
 
         const { name, release_date } = queryDto;
         const query = this.createQueryBuilder('album');
+        query.relation('singerId')
 
         if (release_date) {
             query.andWhere('album.release_date ILIKE :release_date', { release_date: `%${release_date}%` });
@@ -29,7 +32,6 @@ export class AlbumRepository extends Repository<Album> {
         // query.skip((queryDto.page - 1) * queryDto.limit);
         // query.take(+queryDto.limit);
         query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-        query.select(['album.id', 'album.name', 'album.release_date', 'album.image_url']);
 
         const [albums, total] = await query.getManyAndCount();
 
