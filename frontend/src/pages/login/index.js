@@ -37,7 +37,7 @@ function Login() {
     return (
         <Fragment>
             <Container>
-                <div class="text-center col-4 offset-4">
+                <div class="text-center col-4 offset-4" style="background-color: rgba(125, 125, 125, 0.5);">
                     <form className="form-signin text-white">
                         <h1 className='text-center'> MUSIC INFO </h1>
                         <hr />
