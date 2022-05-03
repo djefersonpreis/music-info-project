@@ -51,13 +51,13 @@ class Listagem extends React.Component {
                                 Imagem
                             </TableColumn>
                             <TableColumn
-                                dataField='singerId'
+                                dataField='singer'
                                 searchable
                                 dataSort>
                                 Cantor do Album
                             </TableColumn>
                             <TableColumn
-                                dataField='bandId'
+                                dataField='band'
                                 searchable
                                 dataSort>
                                 Banda do Album

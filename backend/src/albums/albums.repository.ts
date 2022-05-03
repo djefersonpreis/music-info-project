@@ -41,7 +41,7 @@ export class AlbumRepository extends Repository<Album> {
     public async createAlbum(
         createAlbumDto: CreateAlbumDto
     ): Promise<Album> {
-        const { name, image_url, release_date, singer, band } = createAlbumDto;
+        const { name, image_url, release_date, singer, band, musics } = createAlbumDto;
 
         const album = this.create();
         album.name = name;
@@ -49,6 +49,7 @@ export class AlbumRepository extends Repository<Album> {
         album.release_date = release_date;
         album.singer = singer;
         album.band = band;
+        album.musics = musics;
         try {
             await album.save();
             return album;

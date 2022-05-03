@@ -31,16 +31,15 @@ function Album() {
     useEffect(() => {
         api.get("album", '', headers)
             .then(response => {
-                console.log(response.data.found)
                 var content = []
-                response.data.found.albums.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
                         imageUrl: row.image_url,
                         releaseDate: row.release_date,
-                        singerId: row.singer_id,
-                        bandId: row.band_id
+                        singer: ((row.singer != null) ? row.singer.name : ''),
+                        band: ((row.band != null) ? row.band.name : '')
                     })
                 });
                 setContent(content);
@@ -65,9 +64,13 @@ function Album() {
                     id: dataResponse.id,
                     name: dataResponse.name,
                     imageUrl: dataResponse.image_url,
-                    releaseDate: dataResponse.release_date
+                    releaseDate: dataResponse.release_date,
+                    singer: ((dataResponse.singer != null) ? dataResponse.singer : {}),
+                    band: ((dataResponse.band != null) ? dataResponse.band : {}),
+                    musics: ((dataResponse.musics != null) ? dataResponse.musics : []),
                 }
 
+                console.log(album)
                 setAlbum(album);
                 setPageTipe(2);
             })

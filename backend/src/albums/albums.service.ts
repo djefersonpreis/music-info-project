@@ -21,24 +21,15 @@ export class AlbumsService {
         return this.albumRepository.createAlbum(createAlbumDto);
     }
 
-    async findById(albumId: string): Promise<Album> {
-        const album = await this.albumRepository.findOne({
-            select: ['name', 'image_url', 'release_date', 'singer', 'band', 'id'], where: { id: albumId }
-        });
-
-        if (!album) throw new NotFoundException('Albuma não encontrada');
-
-        return album;
-    }
-
     async update(updateAlbumDto: UpdateAlbumDto, id: string): Promise<Album> {
         const album = await this.findById(id);
-        const { name, image_url, release_date, singer, band } = updateAlbumDto;
+        const { name, image_url, release_date, singer, band, musics } = updateAlbumDto;
         album.name = name ? name : album.name;
         album.image_url = image_url ? image_url : album.image_url;
         album.release_date = release_date ? release_date : album.release_date;
         album.singer = singer ? singer : album.singer;
         album.band = band ? band : album.band;
+        album.musics = musics ? musics : album.musics
         try {
             await album.save();
             return album;
@@ -61,7 +52,15 @@ export class AlbumsService {
     async find(
         queryDto: FindAlbumQueryDto,
     ): Promise<Album[]> {
-        const albums = await this.albumRepository.find({relations: ['singer', 'band', 'musics']});
+        const albums = await this.albumRepository.find({ relations: ['singer', 'band', 'musics'] });
         return albums;
+    }
+
+    async findById(albumId: string): Promise<Album> {
+        const album = await this.albumRepository.findOne({ where: { id: albumId }, relations: ['singer', 'band', 'musics'] });
+
+        if (!album) throw new NotFoundException('Albuma não encontrada');
+
+        return album;
     }
 }

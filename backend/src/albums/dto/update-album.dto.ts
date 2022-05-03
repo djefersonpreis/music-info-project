@@ -1,6 +1,7 @@
 import { IsString, IsOptional } from 'class-validator';
 import { Singer } from '../../singers/entities/singer.entity';
 import { Band } from '../../bands/entities/band.entity';
+import { Music } from 'src/musics/entities/music.entity';
 
 export class UpdateAlbumDto {
     @IsOptional()
@@ -21,4 +22,6 @@ export class UpdateAlbumDto {
     singer: Singer;
 
     band: Band;
+
+    musics: Music[];
 }

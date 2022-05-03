@@ -16,14 +16,18 @@ function Cadastro(props) {
     const [imageUrl, setImageUrl] = useState();
     const [imageUrlError, setImageUrlError] = useState("");
 
-    const [singer, setSinger] = useState();
+    const [singer, setSinger] = useState('');
     const [singerIdError, setSingerIdError] = useState("");
 
-    const [band, setBand] = useState();
+    const [band, setBand] = useState('');
     const [bandIdError, setBandIdError] = useState("");
+
+    const [selectedMusics, setSelectedMusics] = useState([]);
+    const [selectedMusicsError, setSelectedMusicsError] = useState("");
 
     const [cantores, setCantores] = useState([]);
     const [bandas, setBandas] = useState([]);
+    const [musicas, setMusicas] = useState([]);
 
     const headers = {
         'Content-Type': 'application/json',
@@ -31,13 +35,11 @@ function Cadastro(props) {
     }
 
     useEffect(() => {
-        if (props.album !== "") {
-            defineAlteracao(props.album);
-        }
+
         api.get("band", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.bands.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
@@ -55,7 +57,7 @@ function Cadastro(props) {
         api.get("singer", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.singers.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
@@ -69,6 +71,28 @@ function Cadastro(props) {
                 console.log("Error");
                 console.log(err);
             });
+
+        api.get("music", '', headers)
+            .then(response => {
+                var content = []
+                response.data.found.forEach(row => {
+                    content.push({
+                        id: row.id,
+                        name: row.name,
+                        imageUrl: row.image_url,
+                        releaseDate: row.release_date
+                    })
+                });
+                setMusicas(content);
+            })
+            .catch((err) => {
+                console.log("Error");
+                console.log(err);
+            });
+
+        if (props.album !== "") {
+            defineAlteracao(props.album);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -79,6 +103,11 @@ function Cadastro(props) {
         setImageUrl(album.imageUrl);
         setSinger(album.singer.id);
         setBand(album.band.id);
+
+        let musicasSelecionadas = []
+        album.musics.forEach((musica) => {musicasSelecionadas.push(musica.id)})
+
+        setSelectedMusics(musicasSelecionadas)
     }
 
     function efetuaCadastro() {
@@ -89,6 +118,7 @@ function Cadastro(props) {
         setImageUrlError("");
         setSingerIdError("");
         setBandIdError("");
+        setSelectedMusicsError("")
 
         if (name === "" || name == null) {
             validaOperacao = false;
@@ -116,8 +146,18 @@ function Cadastro(props) {
                 'access-control-allow-origin': '*'
             }
 
-            let cantor = cantores.filter((row) => row.id === singer) 
-            let banda = bandas.filter((row) => row.id === band) 
+            let cantor = cantores.filter((row) => row.id === singer)
+            let banda = bandas.filter((row) => row.id === band)
+
+            console.log("AQUI => ")
+            console.log(selectedMusics)
+
+            let musicasSelecionadas = [];
+            musicas.forEach((musica) => {
+                if (selectedMusics.indexOf(musica.id) >= 0) {
+                    musicasSelecionadas.push(musica)
+                }
+            })
 
             var data = {
                 name: name,
@@ -125,6 +165,7 @@ function Cadastro(props) {
                 image_url: imageUrl,
                 singer: cantor[0],
                 band: banda[0],
+                musics: musicasSelecionadas
             };
 
             if (id !== 0) {
@@ -237,6 +278,38 @@ function Cadastro(props) {
                         error={(bandIdError !== "")}
                         select>
                         {bandas.map(option => (
+                            <MenuItem
+                                key={option.id}
+                                value={option.id}>
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <TextField
+                        id="musics"
+                        fullWidth
+                        className="m-3"
+                        label="Musicas"
+                        variant="outlined"
+                        value={selectedMusics}
+                        onChange={(event) => {
+                            const {
+                                target: { value },
+                            } = event;
+                            setSelectedMusics(
+                                // On autofill we get a stringified value.
+                                typeof value === 'string' ? value.split(',') : value,
+                            );
+                        }}
+                        helperText={selectedMusicsError}
+                        error={(selectedMusicsError !== "")}
+                        select
+                        SelectProps={{
+                            multiple: true
+                        }}>
+                        {musicas.map(option => (
                             <MenuItem
                                 key={option.id}
                                 value={option.id}>

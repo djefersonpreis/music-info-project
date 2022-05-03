@@ -3,6 +3,7 @@ import {
     MaxLength
 } from 'class-validator';
 import { Band } from 'src/bands/entities/band.entity';
+import { Music } from 'src/musics/entities/music.entity';
 import { Singer } from 'src/singers/entities/singer.entity';
 
 export class CreateAlbumDto {
@@ -24,4 +25,6 @@ export class CreateAlbumDto {
     singer: Singer;
 
     band: Band;
+
+    musics: Music[]
 }
