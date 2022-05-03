@@ -32,7 +32,7 @@ function Banda() {
         api.get("band", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.bands.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,

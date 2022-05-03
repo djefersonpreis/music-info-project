@@ -1,4 +1,5 @@
 import { IsString, IsOptional } from 'class-validator';
+import { Band } from 'src/bands/entities/band.entity';
 
 export class UpdateMusicDto {
     @IsOptional()
@@ -15,4 +16,6 @@ export class UpdateMusicDto {
 
     @IsOptional()
     release_date: string;
+
+    bands: Band[];
 }

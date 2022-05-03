@@ -32,7 +32,7 @@ function Musica() {
         api.get("music", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.musics.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,
@@ -62,7 +62,8 @@ function Musica() {
                     id: dataResponse.id,
                     name: dataResponse.name,
                     imageUrl: dataResponse.image_url,
-                    releaseDate: dataResponse.release_date
+                    releaseDate: dataResponse.release_date,
+                    bands: dataResponse.bands
                 }
 
                 setMusic(music);

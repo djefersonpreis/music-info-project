@@ -149,9 +149,6 @@ function Cadastro(props) {
             let cantor = cantores.filter((row) => row.id === singer)
             let banda = bandas.filter((row) => row.id === band)
 
-            console.log("AQUI => ")
-            console.log(selectedMusics)
-
             let musicasSelecionadas = [];
             musicas.forEach((musica) => {
                 if (selectedMusics.indexOf(musica.id) >= 0) {

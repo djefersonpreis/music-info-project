@@ -8,20 +8,27 @@ body {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
 }
 
-.container-geral{
+.container-geral {
     /*background-color: rgba(125, 125, 125, 0.5);*/
     background-color: #FFF;
 }
 
-.card{
+.card {
     width: 200px;
-    height: 250px;
+    height: 300px;
+}
+
+.card-image {
+    width: 200px;
+    height: 200px;
 }

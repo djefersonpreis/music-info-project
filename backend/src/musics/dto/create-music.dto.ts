@@ -2,6 +2,7 @@ import {
     IsNotEmpty,
     MaxLength
 } from 'class-validator';
+import { Band } from 'src/bands/entities/band.entity';
 
 export class CreateMusicDto {
     @IsNotEmpty({
@@ -18,4 +19,6 @@ export class CreateMusicDto {
         message: 'Informe a Data de Lançamento da Música.',
     })
     release_date: string;
+
+    bands: Band[]
 }

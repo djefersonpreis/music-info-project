@@ -21,22 +21,13 @@ export class MusicsService {
         return this.musicRepository.createMusic(createMusicDto);
     }
 
-    async findById(musicId: string): Promise<Music> {
-        const music = await this.musicRepository.findOne({
-            select: ['name', 'image_url', 'release_date', 'id'], where: { id: musicId }
-        });
-
-        if (!music) throw new NotFoundException('Música não encontrada');
-
-        return music;
-    }
-
     async update(updateMusicDto: UpdateMusicDto, id: string): Promise<Music> {
         const music = await this.findById(id);
-        const { name, image_url, release_date } = updateMusicDto;
+        const { name, image_url, release_date, bands } = updateMusicDto;
         music.name = name ? name : music.name;
         music.image_url = image_url ? image_url : music.image_url;
         music.release_date = release_date ? release_date : music.release_date;
+        music.bands = bands ? bands : music.bands;
         try {
             await music.save();
             return music;
@@ -61,5 +52,13 @@ export class MusicsService {
     ): Promise<Music[]> {
         const musics = await this.musicRepository.find({relations: ['bands']});
         return musics;
+    }
+
+    async findById(musicId: string): Promise<Music> {
+        const music = await this.musicRepository.findOne({ where: { id: musicId }, relations: ['bands'] });
+
+        if (!music) throw new NotFoundException('Musica não encontrada');
+
+        return music;
     }
 }

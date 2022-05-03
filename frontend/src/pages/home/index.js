@@ -19,16 +19,7 @@ function Home() {
     useEffect(() => {
         api.get("music", '', headers)
             .then(response => {
-                var content = []
-                response.data.found.musics.forEach(row => {
-                    content.push({
-                        id: row.id,
-                        name: row.name,
-                        imageUrl: row.image_url,
-                        releaseDate: row.release_date
-                    })
-                });
-                setMusicas(content);
+                setMusicas(response.data.found);
             })
             .catch((err) => {
                 console.log("Error");
@@ -37,16 +28,7 @@ function Home() {
 
             api.get("album", '', headers)
             .then(response => {
-                var content = []
-                response.data.found.albums.forEach(row => {
-                    content.push({
-                        id: row.id,
-                        name: row.name,
-                        imageUrl: row.image_url,
-                        releaseDate: row.release_date
-                    })
-                });
-                setAlbuns(content);
+                setAlbuns(response.data.found);
             })
             .catch((err) => {
                 console.log("Error");
@@ -55,16 +37,7 @@ function Home() {
 
             api.get("singer", '', headers)
             .then(response => {
-                var content = []
-                response.data.found.singers.forEach(row => {
-                    content.push({
-                        id: row.id,
-                        name: row.name,
-                        imageUrl: row.image_url,
-                        birthDate: row.birth_date
-                    })
-                });
-                setCantores(content);
+                setCantores(response.data.found);
             })
             .catch((err) => {
                 console.log("Error");
@@ -73,16 +46,7 @@ function Home() {
 
             api.get("band", '', headers)
             .then(response => {
-                var content = []
-                response.data.found.bands.forEach(row => {
-                    content.push({
-                        id: row.id,
-                        name: row.name,
-                        imageUrl: row.image_url,
-                        creationDate: row.creation_date
-                    })
-                });
-                setBandas(content);
+                setBandas(response.data.found);
             })
             .catch((err) => {
                 console.log("Error");
@@ -95,9 +59,9 @@ function Home() {
         <Fragment>
             <h1>Músicas </h1>
             <hr />
-            <div className='card-group row-cols-1 row-cols-md-4'>
+            <div className='card-group row-cols-1 row-cols-md-5'>
                 {
-                    musicas.map((musica) => <CardModel key={musica.id} image={musica.imageUrl} title={musica.name} date={musica.releaseDate} />)
+                    musicas.map((musica) => <CardModel key={musica.id} image={musica.image_url} title={musica.name} date={musica.release_date} />)
                 }
             </div>
             <hr />
@@ -106,9 +70,9 @@ function Home() {
 
             <h1>Albuns </h1>
             <hr />
-            <div className='card-group row-cols-1 row-cols-md-4'>
+            <div className='card-group row-cols-1 row-cols-md-5'>
                 {
-                    albuns.map((album) => <CardModel key={album.id} image={album.imageUrl} title={album.name} date={album.releaseDate} />)
+                    albuns.map((album) => <CardModel key={album.id} image={album.image_url} title={album.name} date={album.release_date} />)
                 }
             </div>
             <hr />
@@ -117,9 +81,9 @@ function Home() {
 
             <h1>Cantores </h1>
             <hr />
-            <div className='card-group row-cols-1 row-cols-md-4'>
+            <div className='card-group row-cols-1 row-cols-md-5'>
                 {
-                    cantores.map((cantor) => <CardModel key={cantor.id} image={cantor.imageUrl} title={cantor.name} date={cantor.birthDate} />)
+                    cantores.map((cantor) => <CardModel key={cantor.id} image={cantor.image_url} title={cantor.name} date={cantor.birth_date} />)
                 }
             </div>
             <hr />
@@ -128,9 +92,9 @@ function Home() {
 
             <h1>Bandas </h1>
             <hr />
-            <div className='card-group row-cols-1 row-cols-md-4'>
+            <div className='card-group row-cols-1 row-cols-md-5'>
                 {
-                    bandas.map((banda) => <CardModel key={banda.id} image={banda.imageUrl} title={banda.name} date={banda.creationDate} />)
+                    bandas.map((banda) => <CardModel key={banda.id} image={banda.image_url} title={banda.name} date={banda.creation_date} />)
                 }
             </div>
         </Fragment>

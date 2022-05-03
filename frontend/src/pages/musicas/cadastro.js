@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, MenuItem, TextField } from '@material-ui/core';
 
 import api from "../../services/api";
 
@@ -16,7 +16,35 @@ function Cadastro(props) {
     const [imageUrl, setImageUrl] = useState();
     const [imageUrlError, setImageUrlError] = useState("");
 
+    const [selectedBands, setSelectedBands] = useState([]);
+    const [selectedBandsError, setSelectedBandsError] = useState("");
+
+    const [bandas, setBandas] = useState([]);
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'access-control-allow-origin': '*'
+    }
+
     useEffect(() => {
+
+        api.get("band", '', headers)
+            .then(response => {
+                var content = []
+                response.data.found.forEach(row => {
+                    content.push({
+                        id: row.id,
+                        name: row.name,
+                        imageUrl: row.image_url,
+                        creationDate: row.creation_date
+                    })
+                });
+                setBandas(content);
+            })
+            .catch((err) => {
+                console.log("Error");
+                console.log(err);
+            });
         if (props.music !== "") {
             defineAlteracao(props.music);
         }
@@ -27,6 +55,12 @@ function Cadastro(props) {
         setName(music.name);
         setReleaseDate(music.releaseDate);
         setImageUrl(music.imageUrl);
+
+
+        let bandasSelecionadas = []
+        music.bands.forEach((banda) => { bandasSelecionadas.push(banda.id) })
+
+        setSelectedBands(bandasSelecionadas)
     }
 
     function efetuaCadastro() {
@@ -56,16 +90,20 @@ function Cadastro(props) {
 
         if (validaOperacao) {
             console.log("Informações Válidas. Iniciando processo de cadastro...");
+          
 
-            const headers = {
-                'Content-Type': 'application/json',
-                'access-control-allow-origin': '*'
-            }
+            let bandasSelecionadas = [];
+            bandas.forEach((banda) => {
+                if (selectedBands.indexOf(banda.id) >= 0) {
+                    bandasSelecionadas.push(banda)
+                }
+            })
 
             var data = {
                 name: name,
                 release_date: releaseDate,
-                image_url: imageUrl
+                image_url: imageUrl,
+                bands: bandasSelecionadas
             };
 
             if (id !== 0) {
@@ -143,6 +181,38 @@ function Cadastro(props) {
                         helperText={imageUrlError}
                         error={(imageUrlError !== "")}
                     />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <TextField
+                        id="bands"
+                        fullWidth
+                        className="m-3"
+                        label="Bandas"
+                        variant="outlined"
+                        value={selectedBands}
+                        onChange={(event) => {
+                            const {
+                                target: { value },
+                            } = event;
+                            setSelectedBands(
+                                // On autofill we get a stringified value.
+                                typeof value === 'string' ? value.split(',') : value,
+                            );
+                        }}
+                        helperText={selectedBandsError}
+                        error={(selectedBandsError !== "")}
+                        select
+                        SelectProps={{
+                            multiple: true
+                        }}>
+                        {bandas.map(option => (
+                            <MenuItem
+                                key={option.id}
+                                value={option.id}>
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
 
 

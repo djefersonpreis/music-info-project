@@ -32,7 +32,7 @@ function Cantor() {
         api.get("singer", '', headers)
             .then(response => {
                 var content = []
-                response.data.found.singers.forEach(row => {
+                response.data.found.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,

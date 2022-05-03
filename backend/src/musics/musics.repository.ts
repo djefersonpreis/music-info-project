@@ -39,12 +39,13 @@ export class MusicRepository extends Repository<Music> {
     public async createMusic(
         createMusicDto: CreateMusicDto
     ): Promise<Music> {
-        const { name, image_url, release_date } = createMusicDto;
+        const { name, image_url, release_date, bands } = createMusicDto;
 
         const music = this.create();
         music.name = name;
         music.image_url = image_url;
-        music.release_date = release_date
+        music.release_date = release_date;
+        music.bands = bands;
         try {
             await music.save();
             return music;
