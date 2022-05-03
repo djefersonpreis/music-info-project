@@ -31,8 +31,9 @@ function Album() {
     useEffect(() => {
         api.get("album", '', headers)
             .then(response => {
+                console.log(response.data.found)
                 var content = []
-                response.data.found.albuns.forEach(row => {
+                response.data.found.albums.forEach(row => {
                     content.push({
                         id: row.id,
                         name: row.name,

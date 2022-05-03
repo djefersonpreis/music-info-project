@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import Album from './pages/albuns';
 
 import Home from './pages/home';
 import Login from './pages/login';
@@ -17,6 +18,7 @@ const Routes = () => {
                     <Route path="/login" component={Login} />
                     <Route path="/musicas" component={Musica} />
                     <Route path="/usuarios" component={Usuario} />
+                    <Route path="/albuns" component={Album} />
                 </Switch>
             </Switch>
     );
