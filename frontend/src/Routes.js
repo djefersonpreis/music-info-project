@@ -1,6 +1,5 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-import Album from './pages/albuns';
 
 import Home from './pages/home';
 import Login from './pages/login';

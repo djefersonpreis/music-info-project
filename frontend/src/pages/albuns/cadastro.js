@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, MenuItem, TextField } from '@material-ui/core';
 
 import api from "../../services/api";
 
@@ -16,16 +16,60 @@ function Cadastro(props) {
     const [imageUrl, setImageUrl] = useState();
     const [imageUrlError, setImageUrlError] = useState("");
 
-    const [singerId, setSingerId] = useState();
+    const [singer, setSinger] = useState();
     const [singerIdError, setSingerIdError] = useState("");
 
-    const [bandId, setBandId] = useState();
+    const [band, setBand] = useState();
     const [bandIdError, setBandIdError] = useState("");
+
+    const [cantores, setCantores] = useState([]);
+    const [bandas, setBandas] = useState([]);
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'access-control-allow-origin': '*'
+    }
 
     useEffect(() => {
         if (props.album !== "") {
             defineAlteracao(props.album);
         }
+        api.get("band", '', headers)
+            .then(response => {
+                var content = []
+                response.data.found.bands.forEach(row => {
+                    content.push({
+                        id: row.id,
+                        name: row.name,
+                        imageUrl: row.image_url,
+                        creationDate: row.creation_date
+                    })
+                });
+                setBandas(content);
+            })
+            .catch((err) => {
+                console.log("Error");
+                console.log(err);
+            });
+
+        api.get("singer", '', headers)
+            .then(response => {
+                var content = []
+                response.data.found.singers.forEach(row => {
+                    content.push({
+                        id: row.id,
+                        name: row.name,
+                        imageUrl: row.image_url,
+                        birthDate: row.birth_date
+                    })
+                });
+                setCantores(content);
+            })
+            .catch((err) => {
+                console.log("Error");
+                console.log(err);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function defineAlteracao(album) {
@@ -33,8 +77,8 @@ function Cadastro(props) {
         setName(album.name);
         setReleaseDate(album.releaseDate);
         setImageUrl(album.imageUrl);
-        setSingerId(album.singerId);
-        setBandId(album.bandId);
+        setSinger(album.singer.id);
+        setBand(album.band.id);
     }
 
     function efetuaCadastro() {
@@ -72,12 +116,15 @@ function Cadastro(props) {
                 'access-control-allow-origin': '*'
             }
 
+            let cantor = cantores.filter((row) => row.id === singer) 
+            let banda = bandas.filter((row) => row.id === band) 
+
             var data = {
                 name: name,
                 release_date: releaseDate,
                 image_url: imageUrl,
-                singerId: singerId,
-                bandId: bandId,
+                singer: cantor[0],
+                band: banda[0],
             };
 
             if (id !== 0) {
@@ -158,31 +205,45 @@ function Cadastro(props) {
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <TextField
+                        id="singer"
                         fullWidth
                         className="m-3"
-                        id="singerId"
-                        label="Cantor do Album"
+                        label="Cantor"
                         variant="outlined"
-                        type="number"
-                        value={singerId}
-                        onChange={e => setSingerId(e.target.value)}
+                        value={singer}
+                        onChange={(e) => { setSinger(e.target.value) }}
                         helperText={singerIdError}
                         error={(singerIdError !== "")}
-                    />
+                        select>
+                        {cantores.map(option => (
+                            <MenuItem
+                                key={option.id}
+                                value={option.id}>
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <TextField
+                        id="band"
                         fullWidth
                         className="m-3"
-                        id="bandId"
-                        label="Banda do Album"
+                        label="Banda"
                         variant="outlined"
-                        type="number"
-                        value={bandId}
-                        onChange={e => setBandId(e.target.value)}
+                        value={band}
+                        onChange={(e) => { setBand(e.target.value) }}
                         helperText={bandIdError}
                         error={(bandIdError !== "")}
-                    />
+                        select>
+                        {bandas.map(option => (
+                            <MenuItem
+                                key={option.id}
+                                value={option.id}>
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </Grid>
 
                 <Grid item xs={6} sm={4} md={3} lg={2} xl={1} className="mr-3 mb-3">

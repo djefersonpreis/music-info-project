@@ -5,10 +5,10 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToOne,
     JoinColumn,
     ManyToMany,
-    JoinTable
+    JoinTable,
+    ManyToOne
 } from 'typeorm';
 import { Singer } from '../../singers/entities/singer.entity';
 import { Band } from '../../bands/entities/band.entity';
@@ -28,11 +28,11 @@ export class Album extends BaseEntity {
     @Column({ nullable: false, type: 'varchar', length: 20 })
     release_date: string;
 
-    @OneToOne(() => Singer)
+    @ManyToOne(() => Singer)
     @JoinColumn()
     public singer: Singer;
 
-    @OneToOne(() => Band)
+    @ManyToOne(() => Band)
     @JoinColumn()
     public band: Band;
 

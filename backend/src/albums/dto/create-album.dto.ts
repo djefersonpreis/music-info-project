@@ -2,8 +2,8 @@ import {
     IsNotEmpty,
     MaxLength
 } from 'class-validator';
-import { Singer } from '../../singers/entities/singer.entity';
-import { Band } from '../../bands/entities/band.entity';
+import { Band } from 'src/bands/entities/band.entity';
+import { Singer } from 'src/singers/entities/singer.entity';
 
 export class CreateAlbumDto {
     @IsNotEmpty({
