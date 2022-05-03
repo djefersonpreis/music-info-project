@@ -35,6 +35,19 @@ function Home() {
 
     return (
         <Fragment>
+            <h1>Músicas </h1>
+            <hr />
+            <div className='card-group row-cols-1 row-cols-md-4'>
+                {
+                    musicas.map((musica) => <CardModel key={musica.id} image={musica.imageUrl} title={musica.name} date={musica.releaseDate} />)
+                }
+            </div>
+            <hr />
+            <br />
+
+
+            <h1>Albuns </h1>
+            <hr />
             <div className='card-group row-cols-1 row-cols-md-4'>
                 {
                     musicas.map((musica) => <CardModel key={musica.id} image={musica.imageUrl} title={musica.name} date={musica.releaseDate} />)
