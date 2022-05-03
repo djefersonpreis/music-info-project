@@ -38,7 +38,7 @@ export class Album extends BaseEntity {
 
     @ManyToMany(() => Music)
     @JoinTable()
-    Music: Music[];
+    musics: Music[];
 
     @CreateDateColumn()
     createdAt: Date;

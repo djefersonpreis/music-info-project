@@ -58,8 +58,8 @@ export class SingersService {
 
     async find(
         queryDto: FindSingerQueryDto,
-    ): Promise<{ singers: Singer[]; total: number }> {
-        const singers = await this.singerRepository.findSingers(queryDto);
+    ): Promise<Singer[]> {
+        const singers = await this.singerRepository.find();
         return singers;
     }
 }

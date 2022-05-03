@@ -19,7 +19,7 @@ export class AlbumRepository extends Repository<Album> {
 
         const { name, release_date } = queryDto;
         const query = this.createQueryBuilder('album');
-        query.relation('singerId')
+        // query.relation('singerId')
 
         if (release_date) {
             query.andWhere('album.release_date ILIKE :release_date', { release_date: `%${release_date}%` });

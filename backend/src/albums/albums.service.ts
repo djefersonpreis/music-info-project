@@ -60,8 +60,8 @@ export class AlbumsService {
 
     async find(
         queryDto: FindAlbumQueryDto,
-    ): Promise<{ albums: Album[]; total: number }> {
-        const albums = await this.albumRepository.findAlbums(queryDto);
+    ): Promise<Album[]> {
+        const albums = await this.albumRepository.find({relations: ['singer', 'band', 'musics']});
         return albums;
     }
 }

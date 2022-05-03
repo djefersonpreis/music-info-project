@@ -58,8 +58,8 @@ export class BandsService {
 
     async find(
         queryDto: FindBandQueryDto,
-    ): Promise<{ bands: Band[]; total: number }> {
-        const bands = await this.bandRepository.findBands(queryDto);
+    ): Promise<Band[]> {
+        const bands = await this.bandRepository.find();
         return bands;
     }
 }

@@ -58,8 +58,8 @@ export class MusicsService {
 
     async find(
         queryDto: FindMusicQueryDto,
-    ): Promise<{ musics: Music[]; total: number }> {
-        const musics = await this.musicRepository.findMusics(queryDto);
+    ): Promise<Music[]> {
+        const musics = await this.musicRepository.find({relations: ['bands']});
         return musics;
     }
 }
